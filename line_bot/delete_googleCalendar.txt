@@ -1,0 +1,42 @@
+curl -X POST 
+"https://hook.us2.make.com/v0bbegt6migkgg385pn06yqupijkmdht?router=2" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "eventId": "j7mf5aqfornd5sqa4k7l24fto4"
+  }
+
+
+--
+
+  AI會議
+{ "event_id":"avlaah756smmia2vsuqr0qtjb8",
+"summary":"ai會議",
+"description":"每週三ai會議","html_link":"https://www.google.com/calendar/event?eid=YXZsYWFoNzU2c21taWEydnN1cXIwcXRqYjggZTRhYzYzNTI4MDk3ZDc5ZGI1ZjkzNDJmN2Q4MGFiMTBiYmM4MzAyYTBiNTYyNmJhYmFhYWQxMDA1MDIxODRjMUBn",
+"meet_link":"https://meet.google.com/otp-ozzk-rcp", 
+"attendees":[
+{"email":"a29382165@gmail.com",
+"responseStatus":"needsAction"}, 
+{"email":"j2938216501@gmail.com",
+"responseStatus":"needsAction"}
+]
+}
+
+
+
+CARD會議
+{ "event_id":"5u2h02l0fjckds3d9mqnqf2mt4",
+"summary":"card 會議",
+"description":"週二 會議",
+"html_link":"https://www.google.com/calendar/event?eid=NXUyaDAybDBmamNrZHMzZDltcW5xZjJtdDQgZTRhYzYzNTI4MDk3ZDc5ZGI1ZjkzNDJmN2Q4MGFiMTBiYmM4MzAyYTBiNTYyNmJhYmFhYWQxMDA1MDIxODRjMUBn",
+"meet_link":"https://meet.google.com/szf-cmah-nat",
+ "attendees":[{"email":"a29382165@gmail.com","responseStatus":"needsAction"}]}
+
+
+
+組內會議
+{ "event_id":"d9trqpfmcjki3d0tmv1krkk2u4",
+"summary":"組內會議","description":"每週一工作會報",
+"html_link":"https://www.google.com/calendar/event?eid=ZDl0cnFwZm1jamtpM2QwdG12MWtya2sydTQgZTRhYzYzNTI4MDk3ZDc5ZGI1ZjkzNDJmN2Q4MGFiMTBiYmM4MzAyYTBiNTYyNmJhYmFhYWQxMDA1MDIxODRjMUBn",
+"meet_link":"https://meet.google.com/qte-dywf-qgs", 
+"attendees":[{"email":"a29382165@gmail.com",
+"responseStatus":"needsAction"}]}

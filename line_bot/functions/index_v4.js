@@ -1,0 +1,117 @@
+import { onRequest } from "firebase-functions/v2/https";
+import express from "express";
+import indexRouter from "./api/index.js";
+import openaiRouter from "./api/openai.js";
+
+import linebotDemoRouter from "./api/linebot_demo.js";
+import lineMbtiRouter from "./api/line_mbti.js";
+
+import linebotAiRouter from "./api/linebot_ai.js";
+
+import linebotFileRouter from "./api/linebot_file.js";
+
+import linebotMainRouter from "./api/linebot_main.js";
+import linebotNotifyRouter from "./api/linebot_notify.js";
+import linebotLanguageyRouter from "./api/linebot_language.js";
+
+
+const app = express();
+
+//import { defineSecret } from "firebase-functions/params";
+
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/line_demo
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/line_demo
+
+
+// ✅ /line_demo 用 raw body（給 line.middleware 驗簽章用）
+// ✅ 其他路由用 json
+app.use((req, res, next) => {
+  if (req.path.startsWith("/line_demo") || 
+    req.path.startsWith("/line_mbti") || 
+    req.path.startsWith("/linebot_ai") ||
+    req.path.startsWith("/linebot_main") ||
+    req.path.startsWith("/linebot_notify") ||
+    req.path.startsWith("/linebot_language") ||
+    req.path.startsWith("/linebot_file")) {
+    express.raw({ type: "application/json" })(req, res, next);
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
+app.use("/", indexRouter);
+
+//openai 測試用
+app.use("/openai",openaiRouter);
+
+
+
+//第一個機器人APPLE
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/line_demo
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/line_demo
+app.use("/line_demo", linebotDemoRouter);
+
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/line_mbti
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/line_mbti
+
+app.use("/line_mbti", lineMbtiRouter);
+
+//lineai聊天
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/linebot_ai
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/linebot_ai
+app.use("/linebot_ai", linebotAiRouter);
+
+
+//lineai檔案上傳
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/linebot_file
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/linebot_file
+
+app.use("/linebot_file", linebotFileRouter);
+
+
+// __________________________________________________________________________________________________________
+
+//第二個機器人JUDY
+//lineai通知
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/linebot_notify
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/linebot_notify
+app.use("/linebot_notify", linebotNotifyRouter);
+
+
+
+//第三個機器人OREN
+//lineai通知
+//webhook
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/linebot_language
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/linebot_language
+app.use("/linebot_language", linebotLanguageyRouter);
+
+
+
+
+
+
+//webhook all全部
+//正式 firebase雲端 url https://api-4ugb2fo6hq-de.a.run.app/linebot_main
+//測試 本機 url  https://blameable-kristin-proindustrialization.ngrok-free.dev/lineai-e8687/asia-east1/api/linebot_main
+app.use("/linebot_main", linebotMainRouter);
+
+
+
+export const api = onRequest(
+  { 
+    region: "asia-east1",
+    cors: false,
+    minInstances: 0,
+    invoker: "public",
+    ingressSettings: "ALLOW_ALL"
+    //secrets: [defineSecret('LINE_SECRET_APPLE'),defineSecret('LINE_ACCESS_TOKEN_APPLE')]
+  },
+  app
+);

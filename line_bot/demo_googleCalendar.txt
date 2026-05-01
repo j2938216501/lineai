@@ -1,0 +1,70 @@
+#範例一
+
+curl -X POST 
+"https://hook.us2.make.com/v0bbegt6migkgg385pn06yqupijkmdht?router=1" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "summary": "組內會議",
+    "description": "每週一工作會報",
+    "start": "2026-04-20T10:00:00+08:00",
+    "end": "2026-04-20T11:00:00+08:00",
+    "attendees": [ 
+      {
+        "name": "oren",
+        "email": "a29382165@gmail.com"
+      }
+    ],
+    "meet": true
+  }'
+
+
+  ---
+  #範例二
+  {
+    "summary": "ai會議",
+    "description": "每週三ai會議",
+    "start": "2026-04-22T10:00:00+08:00",
+    "end": "2026-04-22T11:00:00+08:00",
+    "attendees": [ 
+      {
+        "name": "oren",
+        "email": "a29382165@gmail.com"
+      },
+      {
+        "name": "j2938216501",
+        "email": "j2938216501@gmail.com"
+      }
+    ],
+    "meet": true
+  }
+
+   ---
+  #範例三
+{
+    "summary": "card校園證件採購會議",
+    "description": "週二採購會議",
+    "start": "2026-04-21T09:30:00+08:00",
+    "end": "2026-04-21T10:30:00+08:00",
+    "attendees": [ 
+      {
+        "name": "oren",
+        "email": "a29382165@gmail.com"
+      }
+    ],
+    "meet": true
+  }
+---
+  #範例四
+{
+  "summary": "card 會議",
+  "description": "週二 會議",
+  "start": "2026-04-21T14:30:00+08:00",
+  "end": "2026-04-21T15:30:00+08:00",
+  "attendees": [
+    {
+      "email": "a29382165@gmail.com",
+      "displayName": "oren"
+    }
+  ],
+  "meet": true
+}

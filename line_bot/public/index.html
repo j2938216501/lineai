@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LanguageBot - AI 語言學習助手</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      letter-spacing: -1px;
+    }
+
+    .hero .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .hero .tagline {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Features Section */
+    .features {
+      background: white;
+      border-radius: 20px;
+      padding: 50px 30px;
+      margin-top: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 50px;
+      color: #667eea;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 30px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      border-color: #667eea;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    /* Technology Section */
+    .technology {
+      margin-top: 40px;
+      background: white;
+      border-radius: 20px;
+      padding: 50px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .tech-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .tech-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Workflow Section */
+    .workflow {
+      margin-top: 40px;
+      background: white;
+      border-radius: 20px;
+      padding: 50px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: fadeInUp 1.4s ease-out;
+    }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .step h4 {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .step p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* CTA Button */
+    .cta-section {
+      text-align: center;
+      margin-top: 60px;
+      /* animation: fadeIn 0.8s ease-out; */
+      animation: fadeInUp 1.6s ease-out;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 20px 50px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      border: 3px solid white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    .cta-button:hover::before {
+      left: 0;
+    }
+
+    .cta-button:hover {
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+    }
+
+    .cta-text {
+      color: white;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero .subtitle {
+        font-size: 1.2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-button {
+        padding: 16px 40px;
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Highlight Box */
+    .highlight {
+      background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+      padding: 25px;
+      border-radius: 15px;
+      margin: 30px 0;
+      border-left: 5px solid #e17055;
+    }
+
+    .highlight h4 {
+      color: #d63031;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .highlight ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .highlight li {
+      padding: 8px 0;
+      color: #2d3436;
+      font-size: 1rem;
+    }
+
+    .highlight li::before {
+      content: '✨ ';
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>LanguageBot🤖</h1>
+      <p class="subtitle">AI 驅動的智能語言學習機器人</p>
+      <p class="tagline">整合 OpenAI、語音辨識、TTS 等先進技術，為您打造全方位的英文學習體驗</p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+      <h2 class="section-title">🚀 核心功能</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">📚</span>
+          <h3>智能單字卡</h3>
+          <p>根據您的程度（國小至大學）和興趣類別，自動產生專業單字卡。包含音標、詞性、定義、例句、同義詞、反義詞，還能一鍵聽發音！</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">📝</span>
+          <h3>句型學習卡</h3>
+          <p>涵蓋疑問句、條件句、被動語態等 12 種句型類型，配合真實情境例句，讓您快速掌握英文句法結構。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🎤</span>
+          <h3>情境口說練習</h3>
+          <p>模擬餐廳、機場等真實情境，支援語音輸入與 AI 對話練習。系統會即時糾正發音和文法錯誤，幫助您自信開口說英文。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">📊</span>
+          <h3>智能測驗系統</h3>
+          <p>透過 Dify AI 技術，提供個性化測驗題目，即時評估學習成果，讓您了解自己的學習進度。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🔊</span>
+          <h3>語音互動</h3>
+          <p>支援語音轉文字（Speech-to-Text）和文字轉語音（TTS），讓學習過程更自然、更便利。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">📸</span>
+          <h3>OCR 文字識別</h3>
+          <p>上傳圖片即可自動識別文字內容，支援多語言辨識，讓您隨時隨地學習新單字。</p>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <h4>💡 特色亮點</h4>
+        <ul>
+          <li>狀態管理系統：記住您的學習偏好與進度</li>
+          <li>模組化設計：可隨時切換不同學習模式</li>
+          <li>個人化體驗：根據程度自動調整內容難度</li>
+          <li>即時回饋：AI 即時糾正錯誤並提供建議</li>
+          <li>多樣化學習：單字、句型、口說、測驗一次滿足</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Technology Section -->
+    <div class="technology">
+      <h2 class="section-title">🛠️ 技術架構</h2>
+      <p style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 20px;">
+        採用現代化技術棧，確保穩定、高效、可擴展的服務體驗
+      </p>
+      <div class="tech-stack">
+        <span class="tech-badge">LINE Bot SDK</span>
+        <span class="tech-badge">OpenAI GPT-4o</span>
+        <span class="tech-badge">OpenAI TTS</span>
+        <span class="tech-badge">Speech-to-Text</span>
+        <span class="tech-badge">Firebase Functions</span>
+        <span class="tech-badge">Firebase Storage</span>
+        <span class="tech-badge">Supabase</span>
+        <span class="tech-badge">Dify API</span>
+        <span class="tech-badge">Express.js</span>
+        <span class="tech-badge">Node.js</span>
+      </div>
+      <div style="margin-top: 40px; padding: 25px; background: #f8f9fa; border-radius: 15px;">
+        <h4 style="color: #667eea; margin-bottom: 15px; font-size: 1.3rem;">🔧 技術特點</h4>
+        <ul style="list-style: none; padding-left: 0; line-height: 2;">
+          <li>✅ <strong>雲端架構：</strong>基於 Firebase Functions 的 Serverless 架構，自動擴展</li>
+          <li>✅ <strong>AI 整合：</strong>深度整合 OpenAI 多種模型（GPT-4o、TTS、Whisper）</li>
+          <li>✅ <strong>狀態管理：</strong>智能記憶使用者的學習狀態與偏好設定</li>
+          <li>✅ <strong>模組化路由：</strong>使用 Express Router 實現功能模組化，易於維護</li>
+          <li>✅ <strong>即時處理：</strong>支援語音、圖片、文字等多種訊息類型的即時處理</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Workflow Section -->
+    <div class="workflow">
+      <h2 class="section-title">📋 使用流程</h2>
+      <div class="workflow-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>添加機器人</h4>
+          <p>掃描 QR Code 或點擊下方按鈕，將 LinguaBot 加入好友</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>選擇功能</h4>
+          <p>輸入指令切換模式：<br>/切換單字卡<br>/切換句型卡<br>/切換口說<br>/切換測驗</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>設定偏好</h4>
+          <p>選擇適合的難度等級（國小/國中/高中/大學）和學習類別</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h4>開始學習</h4>
+          <p>點擊「產生單字/句型」或「開始對話」，立即開始您的學習之旅！</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+      <a href="https://line.me/R/ti/p/@504qlnwh" class="cta-button" target="_blank">
+        🚀 立即體驗 LanguageBot
+      </a>
+      <p class="cta-text">點擊按鈕加入好友，開始您的 AI 語言學習之旅！</p>
+    </div>
+  </div>
+</body>
+</html>
+

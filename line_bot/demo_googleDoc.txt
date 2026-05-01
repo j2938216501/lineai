@@ -1,0 +1,12 @@
+#範例一
+curl 測試：合約複製
+curl -X POST 
+"https://hook.us2.make.com/gtj91w53482de8teoyy7mps2asb1odwu" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "檔案名稱": "wayne1894網站",
+    "甲方": "王呈亮",
+    "合約日期": "115 年 5 月 1 日起，至 116 年 4 月 30 日
+止",
+    "合約金額": "12,000"
+  }'
