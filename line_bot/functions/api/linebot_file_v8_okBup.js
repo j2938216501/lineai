@@ -24,14 +24,8 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 
 // 初始化 Firebase Admin
-// if (!admin.apps.length) {
-//     admin.initializeApp();
-// }
-// 初始化 Firebase Admin - 指定 Storage Bucket
 if (!admin.apps.length) {
-    admin.initializeApp({
-        storageBucket: "lineai-e8687.firebaseapp.com"  // 你的 bucket 名稱
-    });
+    admin.initializeApp();
 }
 
 // 取得 Firebase Storage 實例
