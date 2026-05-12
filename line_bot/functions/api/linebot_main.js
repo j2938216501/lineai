@@ -7,6 +7,16 @@ import OpenAI from "openai";
 
 import { createClient } from '@supabase/supabase-js';
 
+//  @google-cloud/storage 
+import { writeFileSync } from 'fs';
+import { tmpdir } from 'os';
+import path from 'path';
+
+if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+    const credPath = path.join(tmpdir(), 'gcp-credentials.json');
+    writeFileSync(credPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+    process.env.GOOGLE_APPLICATION_CREDENTIALS = credPath;
+}
 
 dotenv.config();
 
