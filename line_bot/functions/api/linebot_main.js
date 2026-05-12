@@ -40,7 +40,8 @@ if (!admin.apps.length) {
 }
 
 
-const bucket = admin.storage().bucket();
+//const bucket = admin.storage().bucket();
+const bucket = admin.storage().bucket(process.env.FIREBASE_STORAGE_BUCKET);
 
 // LINE Bot 設定
 const config = {
