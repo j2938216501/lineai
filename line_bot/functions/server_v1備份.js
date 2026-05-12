@@ -20,12 +20,6 @@ import { processnotify } from "./scheduled/line_notify.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-// render log
-console.log('FIREBASE_PROJECT_ID:', process.env.FIREBASE_PROJECT_ID);
-console.log('FIREBASE_CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL);
-console.log('FIREBASE_PRIVATE_KEY 前20字:', process.env.FIREBASE_PRIVATE_KEY?.substring(0, 20));
-console.log('FIREBASE_STORAGE_BUCKET:', process.env.FIREBASE_STORAGE_BUCKET);
-
 const app = express();
 
 // ✅ LINE webhook 路由用 raw body，其他用 json
