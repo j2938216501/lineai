@@ -38,6 +38,8 @@ app.use((req, res, next) => {
     req.path.startsWith("/linebot_notify") ||
     req.path.startsWith("/linebot_notify_make") ||
     req.path.startsWith("/linebot_languagebup") ||
+    req.path.startsWith("/linebot_language") ||
+    req.path.startsWith("/line_language") ||
     req.path.startsWith("/linebot_language2") ||
     req.path.startsWith("/firecrawl_demo") ||
     req.path.startsWith("/linebot_file")
