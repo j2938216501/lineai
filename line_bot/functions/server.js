@@ -30,7 +30,19 @@ const app = express();
 
 // ✅ LINE webhook 路由用 raw body，其他用 json
 app.use((req, res, next) => {
-  if (
+  const isOren2LanguagePath =
+    req.path === "/linebot_language" ||
+    req.path.startsWith("/linebot_language/") ||
+    req.path === "/line_language" ||
+    req.path.startsWith("/line_language/");
+
+  if (isOren2LanguagePath) {
+    express.json({
+      verify: (req, res, buf) => {
+        req.rawBody = buf;
+      }
+    })(req, res, next);
+  } else if (
     req.path.startsWith("/line_demo") ||
     req.path.startsWith("/line_mbti") ||
     req.path.startsWith("/linebot_ai") ||
@@ -47,6 +59,28 @@ app.use((req, res, next) => {
     express.json()(req, res, next);
   }
 });
+
+
+// app.use((req, res, next) => {
+//   if (
+//     req.path.startsWith("/line_demo") ||
+//     req.path.startsWith("/line_mbti") ||
+//     req.path.startsWith("/linebot_ai") ||
+//     req.path.startsWith("/linebot_main") ||
+//     req.path.startsWith("/linebot_notify") ||
+//     req.path.startsWith("/linebot_notify_make") ||
+//     req.path.startsWith("/linebot_languagebup") ||
+//     req.path.startsWith("/linebot_language") ||
+//     req.path.startsWith("/line_language") ||
+//     req.path.startsWith("/linebot_language2") ||
+//     req.path.startsWith("/firecrawl_demo") ||
+//     req.path.startsWith("/linebot_file")
+//   ) {
+//     express.raw({ type: "application/json" })(req, res, next);
+//   } else {
+//     express.json()(req, res, next);
+//   }
+// });
 
 app.use("/", indexRouter);
 app.use("/openai", openaiRouter);
