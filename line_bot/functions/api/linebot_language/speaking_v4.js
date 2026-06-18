@@ -13,7 +13,6 @@ const openai = new OpenAI({
 
 dotenv.config();
 
-/*firebase
 // 初始化 Firebase Admin
 if (!admin.apps.length) {
     admin.initializeApp();
@@ -21,30 +20,6 @@ if (!admin.apps.length) {
 
 // 取得 Firebase Storage 實例
 const bucket = admin.storage().bucket();
-
-*/
-
-import { writeFileSync } from 'fs';
-import { tmpdir } from 'os';
-import path from 'path';
-
-if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON && !process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    const credPath = path.join(tmpdir(), 'gcp-credentials.json');
-    writeFileSync(credPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
-    process.env.GOOGLE_APPLICATION_CREDENTIALS = credPath;
-}
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-        }),
-        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-    });
-}
-const bucket = admin.storage().bucket(process.env.FIREBASE_STORAGE_BUCKET);
-
 
 const config = {
     channelSecret: process.env.LINE_SECRET_OREN2,
