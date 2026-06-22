@@ -29,6 +29,7 @@ const bucket = admin.storage().bucket();
 import { writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
+import { credentialWithGlobalFetch } from './firebaseCredential.js'; // 依實際路徑調整
 
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON && !process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     const credPath = path.join(tmpdir(), 'gcp-credentials.json');
@@ -37,13 +38,20 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON && !process.env.GOOGLE_APPLI
 }
 if (!admin.apps.length) {
     admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-        }),
-        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-    });
+    credential: credentialWithGlobalFetch({
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+});
+    // admin.initializeApp({
+    //     credential: admin.credential.cert({
+    //         projectId: process.env.FIREBASE_PROJECT_ID,
+    //         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    //         privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    //     }),
+    //     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    // });
 }
 const bucket = admin.storage().bucket(process.env.FIREBASE_STORAGE_BUCKET);
 
