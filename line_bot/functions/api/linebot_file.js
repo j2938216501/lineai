@@ -5,6 +5,7 @@ import admin from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
 
 import { createClient } from '@supabase/supabase-js';
+import { credentialWithGlobalFetch } from './firebaseCredential.js'; // 依實際路徑調整
 
 import OpenAI from "openai";
 
@@ -29,9 +30,17 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 // }
 // 初始化 Firebase Admin - 指定 Storage Bucket
 if (!admin.apps.length) {
+
     admin.initializeApp({
-        storageBucket: "lineai-e8687.firebaseapp.com"  // 你的 bucket 名稱
-    });
+    credential: credentialWithGlobalFetch({
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+});
+    // admin.initializeApp({
+    //     storageBucket: "lineai-e8687.firebaseapp.com"  // 你的 bucket 名稱
+    // });
 }
 
 // 取得 Firebase Storage 實例
