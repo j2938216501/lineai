@@ -10,6 +10,12 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl2 = process.env.SUPABASE_URL2
+const supabaseKey2 = process.env.SUPABASE_KEY2
+const supabase2 = createClient(supabaseUrl2, supabaseKey2);
+
 
 dotenv.config();
 
@@ -770,29 +776,40 @@ async function buildTtsVoiceMessages(text, messageId) {
 
         // 2. 上傳到 Firebase Storage 取得公開 URL
         const filePath = `tts/speaking/${Date.now()}_${messageId}`;
-        const file = bucket.file(filePath);
+        // const file = bucket.file(filePath);
 
-        await file.save(audioBuffer, {
-            metadata: {
-                contentType: "audio/wav",
-                metadata: {
-                    source: "linebot_speaking",
-                    text: text.slice(0, 200)
-                }
-            }
-        });
+        // await file.save(audioBuffer, {
+        //     metadata: {
+        //         contentType: "audio/wav",
+        //         metadata: {
+        //             source: "linebot_speaking",
+        //             text: text.slice(0, 200)
+        //         }
+        //     }
+        // });
 
-        const publicUrl = await getDownloadURL(file);
+        // const publicUrl = await getDownloadURL(file);
+
+        // supabase storeage
+        const { error: uploadError } = await supabase2.storage
+            .from('line-files')
+            .upload(filePath, audioBuffer, { contentType: "audio/wav" });
+
+        const { data: urlData } = supabase2.storage
+            .from('line-files')
+            .getPublicUrl(filePath);
+        const downloadURL = urlData.publicUrl;
+
 
         // 3. 粗估語音長度（毫秒）給 LINE 使用
         const durationMs = estimateSpeechDurationMs(text);
 
         // 回傳可直接塞到 LINE messages 的陣列
-        console.log("語音訊息已產生，URL:", publicUrl);
+        console.log("語音訊息已產生，URL:", downloadURL);
         return [
             {
                 type: "audio",
-                originalContentUrl: publicUrl,
+                originalContentUrl: downloadURL,
                 duration: durationMs
             }
         ];
