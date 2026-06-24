@@ -28,8 +28,10 @@ dotenv.config();
 // 載入SUPABASE環境變數
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
+const supabaseUrl2 = process.env.SUPABASE_URL2
+const supabaseKey2 = process.env.SUPABASE_KEY2
 const supabase = createClient(supabaseUrl, supabaseKey)
-
+const supabase2 = createClient(supabaseUrl2, supabaseKey2)
 
 
 // 初始化 Firebase 
@@ -299,10 +301,20 @@ async function handleFile(event) {
         const sourceInfo = getPushTargetFromSource(event.source);
         const storagePath = `${getStoragePath(sourceInfo, messageId)}/${fileName}`;
 
-        const file = bucket.file(storagePath);
-        await file.save(buffer, { metadata: { contentType } });
+        // const file = bucket.file(storagePath);
+        // await file.save(buffer, { metadata: { contentType } });
 
-        const downloadURL = await getDownloadURL(file);
+        // const downloadURL = await getDownloadURL(file);
+
+        // supabase storeage
+        const { error: uploadError } = await supabase2.storage
+            .from('line-files')
+            .upload(storagePath, buffer, { contentType });
+
+        const { data: urlData } = supabase2.storage
+            .from('line-files')
+            .getPublicUrl(storagePath);
+        const downloadURL = urlData.publicUrl;
 
         const validSourceType = sourceInfo?.type || event.source?.type || 'user';
         const validSourceId = sourceInfo?.id || event.source?.userId || event.source?.groupId || event.source?.roomId || 'unknown';
