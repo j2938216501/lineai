@@ -92,9 +92,9 @@ const USER_LOCATION = {
     timezone: "Asia/Taipei",
 };
 
-// MBTI JSON 來源
-const MBTI_JSON_URL = "https://lineai-e8687.web.app/mbti_data.json";
-
+// MBTI JSON 來源 https://raw.githubusercontent.com/j2938216501/lineai/main/line_bot/mbti_data.json
+// const MBTI_JSON_URL = "https://lineai-e8687.web.app/mbti_data.json";
+const MBTI_JSON_URL = "https://raw.githubusercontent.com/j2938216501/lineai/main/line_bot/mbti_data.json";
 // ── GET 測試 ──────────────────────────────────────────────────────────
 router.get("/", (req, res) => {
     res.send("我是 linebot_main 統一入口 webhook 🤖");
@@ -295,10 +295,11 @@ async function handleFile(event) {
 
     try {
         const { buffer, contentType } = await downloadMessageContent(messageId);
-        const ext = getExtensionFromType(messageType, contentType);
+        // const ext = getExtensionFromType(messageType, contentType);
         // const fileName = originalFileName || `${messageType}_${messageId}.${ext}`;
         // const sourceInfo = getPushTargetFromSource(event.source);
         // const storagePath = `${getStoragePath(sourceInfo, messageId)}/${fileName}`;
+        const ext = getExtensionFromType(messageType, contentType, originalFileName);
         const fileName = originalFileName || `${messageType}_${messageId}.${ext}`;
         const sourceInfo = getPushTargetFromSource(event.source);
         const safeFileName = `${messageId}.${ext}`;
@@ -391,13 +392,32 @@ async function downloadMessageContent(messageId) {
     return { buffer, contentType };
 }
 
-function getExtensionFromType(messageType, contentType) {
+// function getExtensionFromType(messageType, contentType) {
+//     const mimeMap = {
+//         "image/jpeg": "jpg", "image/png": "png", "image/gif": "gif", "image/webp": "webp",
+//         "video/mp4": "mp4", "audio/mpeg": "mp3", "audio/m4a": "m4a", "audio/aac": "aac",
+//         "application/pdf": "pdf", "application/zip": "zip",
+//     };
+//     if (mimeMap[contentType]) return mimeMap[contentType];
+//     const typeDefault = { image: "jpg", video: "mp4", audio: "m4a", file: "bin" };
+//     return typeDefault[messageType] || "bin";
+// }
+
+
+function getExtensionFromType(messageType, contentType, originalFileName) {
+    // 優先用原始檔名的副檔名（file 類型最準）
+    if (originalFileName) {
+        const ext = originalFileName.split('.').pop();
+        if (ext && ext !== originalFileName) return ext.toLowerCase();
+    }
+
     const mimeMap = {
         "image/jpeg": "jpg", "image/png": "png", "image/gif": "gif", "image/webp": "webp",
         "video/mp4": "mp4", "audio/mpeg": "mp3", "audio/m4a": "m4a", "audio/aac": "aac",
         "application/pdf": "pdf", "application/zip": "zip",
     };
     if (mimeMap[contentType]) return mimeMap[contentType];
+
     const typeDefault = { image: "jpg", video: "mp4", audio: "m4a", file: "bin" };
     return typeDefault[messageType] || "bin";
 }
