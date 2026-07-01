@@ -296,11 +296,13 @@ async function handleFile(event) {
     try {
         const { buffer, contentType } = await downloadMessageContent(messageId);
         const ext = getExtensionFromType(messageType, contentType);
+        // const fileName = originalFileName || `${messageType}_${messageId}.${ext}`;
+        // const sourceInfo = getPushTargetFromSource(event.source);
+        // const storagePath = `${getStoragePath(sourceInfo, messageId)}/${fileName}`;
         const fileName = originalFileName || `${messageType}_${messageId}.${ext}`;
-
         const sourceInfo = getPushTargetFromSource(event.source);
-        const storagePath = `${getStoragePath(sourceInfo, messageId)}/${fileName}`;
-
+        const safeFileName = `${messageId}.${ext}`;
+        const storagePath = `${getStoragePath(sourceInfo, messageId)}/${safeFileName}`;
         // const file = bucket.file(storagePath);
         // await file.save(buffer, { metadata: { contentType } });
 
